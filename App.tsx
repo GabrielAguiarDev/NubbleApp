@@ -25,7 +25,7 @@ function App() {
 
 function AppContent() {
   const safeAreaInsets = useSafeAreaInsets();
-
+  // commit
   return (
     <View style={styles.container}>
       <NewAppScreen
