@@ -1,13 +1,16 @@
 import { NavigatorScreenParams } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
-import { SettingsScreen } from '@screens';
+import { SettingsScreen, PostCommentScreen } from '@screens';
 
 import { AppTabBottomTabParamList, AppTabNavigator } from './AppTabNavigator';
 
 export type AppStackParamList = {
   AppTabNavigator: NavigatorScreenParams<AppTabBottomTabParamList>;
   SettingsScreen: undefined;
+  PostCommentScreen: {
+    postId: number;
+  };
 };
 
 const Stack = createNativeStackNavigator<AppStackParamList>();
@@ -19,6 +22,7 @@ export function AppStack() {
       screenOptions={{ headerShown: false, fullScreenGestureEnabled: true }}>
       <Stack.Screen name="AppTabNavigator" component={AppTabNavigator} />
       <Stack.Screen name="SettingsScreen" component={SettingsScreen} />
+      <Stack.Screen name="PostCommentScreen" component={PostCommentScreen} />
     </Stack.Navigator>
   );
 }
