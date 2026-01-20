@@ -2,6 +2,7 @@
   "editor.codeActionsOnSave": {
     "source.fixAll.eslint": "always"
   },
+  "cSpell.words": ["Zustand"],
   "editor.defaultFormatter": "esbenp.prettier-vscode",
   "prettier.tabWidth": 4
 }

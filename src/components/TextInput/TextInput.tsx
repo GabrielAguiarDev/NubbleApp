@@ -1,5 +1,10 @@
 import React, { useRef } from 'react';
-import { Pressable, TextInput as RNTextInput, TextInputProps as RNTextInputProps, TextStyle } from 'react-native';
+import {
+  Pressable,
+  TextInput as RNTextInput,
+  TextInputProps as RNTextInputProps,
+  TextStyle,
+} from 'react-native';
 
 import { useAppTheme } from '@hooks';
 
@@ -13,7 +18,13 @@ export interface TextInputProps extends RNTextInputProps {
   boxProps?: BoxProps;
 }
 
-export function TextInput({ label, errorMessage, RightComponent, boxProps, ...rnTextInputProps }: TextInputProps) {
+export function TextInput({
+  label,
+  errorMessage,
+  RightComponent,
+  boxProps,
+  ...rnTextInputProps
+}: TextInputProps) {
   const { colors } = useAppTheme();
   const inputRef = useRef<RNTextInput>(null);
 
@@ -40,7 +51,7 @@ export function TextInput({ label, errorMessage, RightComponent, boxProps, ...rn
             <RNTextInput
               ref={inputRef}
               placeholderTextColor={colors.gray2}
-              autoCapitalize='none'
+              autoCapitalize="none"
               style={$textInputStyle}
               {...rnTextInputProps}
             />
@@ -61,7 +72,7 @@ export function TextInput({ label, errorMessage, RightComponent, boxProps, ...rn
   );
 }
 
-const $textInputStyle: TextStyle = {
+export const $textInputStyle: TextStyle = {
   padding: 0,
   flexGrow: 1,
   flexShrink: 1,

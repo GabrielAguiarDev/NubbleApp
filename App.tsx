@@ -1,14 +1,17 @@
+// import { ToastProvider } from '@services';
 import { ThemeProvider } from '@shopify/restyle';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 
-import { Router } from './src/routes/Routes';
-import { theme } from './src/theme/theme';
+import { Toast } from '@components';
+import { Router } from '@routes';
+import { theme } from '@theme';
 
 function App() {
   return (
     <SafeAreaProvider>
       <ThemeProvider theme={theme}>
         <Router />
+        <Toast />
       </ThemeProvider>
     </SafeAreaProvider>
   );
