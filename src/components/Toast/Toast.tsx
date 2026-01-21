@@ -5,7 +5,7 @@ import { ToastPosition, useToast, useToastService } from '@services';
 
 import { ToasContent } from './components/ToastContent';
 
-const DEFAULT_DURATION = 4000;
+const DEFAULT_DURATION = 3000;
 
 export function Toast() {
   const toast = useToast();
