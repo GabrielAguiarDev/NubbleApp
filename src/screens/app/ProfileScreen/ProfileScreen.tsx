@@ -1,4 +1,5 @@
 import React from 'react';
+import { RefreshControl, ScrollView } from 'react-native';
 
 import { useUserGetById } from '@domain';
 
@@ -10,7 +11,6 @@ import {
   Text,
 } from '@components';
 import { AppScreenProps } from '@routes';
-import { RefreshControl, ScrollView } from 'react-native';
 export function ProfileScreen({ route }: AppScreenProps<'ProfileScreen'>) {
   const userId = route.params.userId;
 
