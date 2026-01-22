@@ -7,7 +7,7 @@ export function MyProfileScreen({
   navigation,
 }: AppTabScreenProps<'MyProfileScreen'>) {
   const { authCredentials } = useAuthCredentials();
-  const name = authCredentials?.user.fullName;
+  const name = authCredentials?.user?.fullName;
   return (
     <Screen>
       <Box
