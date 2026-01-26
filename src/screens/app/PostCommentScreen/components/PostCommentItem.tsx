@@ -31,6 +31,8 @@ export function PostCommentItem({
     postAuthorId,
   );
 
+  console.log({ postComment, userId, postAuthorId, isAllowToDelete });
+
   function confirmRemove() {
     Alert.alert('Deseja excluir o comentário?', 'pressione confirmar', [
       {

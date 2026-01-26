@@ -1,3 +1,4 @@
+import { useAuthSignUp } from '@domain';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 
@@ -7,35 +8,53 @@ import {
   Screen,
   FormTextInput,
   FormPasswordInput,
+  ActivityIndicator,
 } from '@components';
 import { useResetNavigationSuccess } from '@hooks';
-import { AuthScreenProps } from '@routes';
+import { AuthScreenProps, AuthStackParamList } from '@routes';
 
 import { SignUpSchema, signUpSchema } from './SignUpSchema';
+import { useAsyncValidation } from './useAsyncValidation';
+
+const resetParam: AuthStackParamList['SuccessScreen'] = {
+  title: 'Sua conta foi criada com sucesso!',
+  description: 'Agora é só fazer login na nossa plataforma',
+  icon: {
+    name: 'checkRound',
+    color: 'success',
+  },
+};
+
+const defaultValues: SignUpSchema = {
+  username: '',
+  firstName: '',
+  lastName: '',
+  email: '',
+  password: '',
+};
 
 export function SignUpScreen({}: AuthScreenProps<'SignUpScreen'>) {
   const { reset } = useResetNavigationSuccess();
-  const { control, formState, handleSubmit } = useForm<SignUpSchema>({
-    resolver: zodResolver(signUpSchema),
-    defaultValues: {
-      username: '',
-      fullName: '',
-      email: '',
-      password: '',
+  const { signUp, isLoading } = useAuthSignUp({
+    onSuccess: () => {
+      reset(resetParam);
     },
-    mode: 'onChange',
   });
-
-  function submitForm({}: SignUpSchema) {
-    reset({
-      title: 'Sua conta foi criada com sucesso!',
-      description: 'Agora é só fazer login na nossa plataforma.',
-      icon: {
-        name: 'checkRound',
-        color: 'success',
-      },
+  const { control, formState, handleSubmit, watch, getFieldState } =
+    useForm<SignUpSchema>({
+      resolver: zodResolver(signUpSchema),
+      defaultValues,
+      mode: 'onChange',
     });
+
+  function submitForm(formValues: SignUpSchema) {
+    signUp(formValues);
   }
+
+  const { usernameValidation, emailValidation } = useAsyncValidation({
+    watch,
+    getFieldState,
+  });
 
   return (
     <Screen canGoBack scrollable>
@@ -47,14 +66,29 @@ export function SignUpScreen({}: AuthScreenProps<'SignUpScreen'>) {
         name="username"
         label="Seu username"
         placeholder="@"
+        autoCorrect={false}
+        boxProps={{ mb: 's20' }}
+        errorMessage={usernameValidation.errorMessage}
+        RightComponent={
+          usernameValidation.isFetching ? (
+            <ActivityIndicator size="small" />
+          ) : undefined
+        }
+      />
+      <FormTextInput
+        control={control}
+        name="firstName"
+        autoCapitalize="words"
+        label="Nome"
+        placeholder="Digite seu nome"
         boxProps={{ mb: 's20' }}
       />
       <FormTextInput
         control={control}
-        name="fullName"
+        name="lastName"
         autoCapitalize="words"
-        label="Nome completo"
-        placeholder="Digite seu nome completo"
+        label="Sobrenome"
+        placeholder="Digite seu sobrenome"
         boxProps={{ mb: 's20' }}
       />
       <FormTextInput
@@ -63,6 +97,12 @@ export function SignUpScreen({}: AuthScreenProps<'SignUpScreen'>) {
         label="E-mail"
         placeholder="Digite seu e-mail"
         boxProps={{ mb: 's20' }}
+        errorMessage={emailValidation.errorMessage}
+        RightComponent={
+          emailValidation.isFetching ? (
+            <ActivityIndicator size="small" />
+          ) : undefined
+        }
       />
       <FormPasswordInput
         control={control}
@@ -73,7 +113,12 @@ export function SignUpScreen({}: AuthScreenProps<'SignUpScreen'>) {
         boxProps={{ mb: 's48' }}
       />
       <Button
-        disabled={!formState.isValid}
+        loading={isLoading}
+        disabled={
+          !formState.isValid ||
+          usernameValidation.notReady ||
+          emailValidation.notReady
+        }
         onPress={handleSubmit(submitForm)}
         title="Criar uma conta"
       />
