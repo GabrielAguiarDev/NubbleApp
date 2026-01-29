@@ -6,11 +6,13 @@ import com.facebook.react.defaults.DefaultNewArchitectureEntryPoint.fabricEnable
 import com.facebook.react.defaults.DefaultReactActivityDelegate
 import android.os.Bundle
 import com.swmansion.rnscreens.fragment.restoration.RNScreensFragmentFactory
+import android.os.Bundle
+import com.zoontek.rnbootsplash.RNBootSplash
 
 class MainActivity : ReactActivity() {
   
-  override fun onCreate(savedInstanceState: Bundle?) {
-    supportFragmentManager.fragmentFactory = RNScreensFragmentFactory()
+   override fun onCreate(savedInstanceState: Bundle?) {
+    RNBootSplash.init(this, R.style.Theme_BootSplash) // ⬅️ initialize the splash screen
     super.onCreate(savedInstanceState)
   }
   /**
